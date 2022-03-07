@@ -77,17 +77,17 @@ def prep_url(panoid):  # pass in panoid
 # download image
 def download_image(folder_path: str, url: str):
     try:
-        image_content = requests.get(url).content
+        image_content = requests.get(url).content # make a request(get()) to webpage and get its content
 
     except Exception as e:
         print(f"Error -- Could not download {url} - {e}")
 
     try:
-        image_file = io.BytesIO(image_content)
-        image = Image.open(image_file).convert('RGB')
-        file_path = os.path.join(folder_path, hashlib.sha1(image_content).hexdigest()[:10] + '.jpg')
-        with open(file_path, 'wb') as f:
-            image.save(f, "JPEG", quality=85)
+        image_file = io.BytesIO(image_content) # binary stream using an in-memory bytes buffer
+        image = Image.open(image_file).convert('RGB') # open an image using PIL package
+        file_path = os.path.join(folder_path, hashlib.sha1(image_content).hexdigest()[:10] + '.jpg') # create file path
+        with open(file_path, 'wb') as f: # open; wb -- write and binary
+            image.save(f, "JPEG", quality=85) # save
         print(f"SUCCESS - saved {url} - as {file_path}")
 
     except Exception as e:
